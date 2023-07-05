@@ -27,7 +27,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const deployer = new Deployer(hre, wallet);
 
   // Deploying the ERC721 contract
-  const nftContractArtifact = await deployer.loadArtifact("ERC721");
+  const nftContractArtifact = await deployer.loadArtifact("InfinityStones");
   const nftContract = await deployer.deploy(nftContractArtifact, []);
   console.log(`NFT Contract address: ${nftContract.address}`);
 
@@ -42,7 +42,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   // Verify contract programmatically
   //
   // Contract MUST be fully qualified name (e.g. path/sourceName:contractName)
-  const contractFullyQualifedName = "contracts/token/ERC721.sol:ERC721";
+  const contractFullyQualifedName = "contracts/token/ERC721.sol:InfinityStones";
   const verificationId = await hre.run("verify:verify", {
     address: nftContract.address,
     contract: contractFullyQualifedName,

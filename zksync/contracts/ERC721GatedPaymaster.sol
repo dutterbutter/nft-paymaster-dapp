@@ -13,7 +13,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @author Matter Labs
 /// @notice This smart contract pays the gas fees on behalf of users that are the owner of a specific NFT asset
-contract ERC721gatedPaymaster is IPaymaster, Ownable {
+contract ERC721GatedPaymaster is IPaymaster, Ownable {
     IERC721 private immutable nft_asset;
 
     modifier onlyBootloader() {

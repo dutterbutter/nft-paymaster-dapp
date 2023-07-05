@@ -7,7 +7,7 @@ import Text from "./components/Text";
 import Greeting from "./components/GreeterMessage";
 import useWeb3 from "./hooks/useWeb3";
 import { Contract } from "zksync-web3";
-import { GREETER_ADDRESS, GREETER_CONTRACT_ABI } from "./constants/consts";
+import { GREETER_ADDRESS, GREETER_CONTRACT_ABI, NFT_CONTRACT_ADDRESS, NFT_CONTRACT_ABI } from "./constants/consts";
 
 export default function Home() {
   const { provider, signer, setProvider, setSigner } = useWeb3();
@@ -15,6 +15,7 @@ export default function Home() {
   const [greeterContractInstance, setGreeterContractInstance] =
     useState<Contract | null>(null);
   const [greeting, setGreetingMessage] = useState<string>("");
+  const [hasBalance, checkBalance] = useState(Boolean);
 
   // Handler for setting Greeter contract address
   useEffect(() => {
@@ -27,9 +28,32 @@ export default function Home() {
         );
 
         setGreeterContractInstance(greeterContract);
-
         const fetchedGreeting = await greeterContract.greet();
         setGreetingMessage(fetchedGreeting);
+        
+        const nftContract = new Contract(
+          NFT_CONTRACT_ADDRESS,
+          NFT_CONTRACT_ABI,
+          signer
+        );
+        
+        const address = await signer.getAddress();
+        const balance = await nftContract.balanceOf(address);
+        if (balance > 0) {
+          console.log("You have a token!")
+          checkBalance(true);
+          const tokenId = 0;
+        const tokenURI = await nftContract.tokenURI(tokenId);
+        console.log("TOKEN URI",tokenURI);
+        // Now fetch the metadata
+        const res = await fetch(tokenURI);
+        const metadata = await res.json();
+        
+        // Log the metadata
+        console.log("METADATA",metadata);
+        } else {
+          checkBalance(false);
+        }
       }
     };
 
@@ -59,6 +83,7 @@ export default function Home() {
         greeterInstance={greeterContractInstance}
         setGreetingMessage={setGreetingMessage}
         provider={provider}
+        hasNFT={hasBalance}
       />
       <div className="mb-12"></div>
     </main>

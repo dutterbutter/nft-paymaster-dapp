@@ -1,7 +1,7 @@
 {
     "name": "Soul Stone",
     "description": "The Soul Stone, found on Vormir, can control life and death, but demands a sacrifice.",
-    "image": "ipfs://ipfs/Qmb9fA5jcnPqUjRtqWT8mQXWxLnXpNNYb2Sqv13NXUZo7v/MindStone.png",
+    "image": "ipfs://QmXTMMjwmaT67EyjUfbGfPpZTkWz8f8uh3yuTm1BJbHF8L/orange_stone.png",
     "attributes": [
         {
             "trait_type": "Color",

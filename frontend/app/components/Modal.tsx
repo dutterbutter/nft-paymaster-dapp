@@ -14,9 +14,10 @@ type ModalProps = {
     cost: string;
     price: string;
     gas: string;
+    hasNFT: boolean;
 };
 
-export default function Modal({ greeterInstance, message, setGreetingMessage, cost, price, gas }: ModalProps) {
+export default function Modal({ greeterInstance, message, setGreetingMessage, cost, price, gas, hasNFT }: ModalProps) {
   const [open, setOpen] = useState(true);
 
   return (
@@ -57,7 +58,7 @@ export default function Modal({ greeterInstance, message, setGreetingMessage, co
                   </button>
                 </div>
                 <div className="sm:flex sm:items-start">
-                  <Checkout greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas} />
+                  <Checkout greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas} hasNFT={hasNFT} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

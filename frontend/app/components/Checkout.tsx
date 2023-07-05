@@ -3,40 +3,45 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Text from "./Text";
 import { Web3Provider, Signer, Contract } from "zksync-web3";
+import usePaymaster from "../hooks/usePaymaster";
 
-const subtotal = "setGreeting";
-const discount = { code: "MIND STONE", amount: "FREE GAS" };
-const taxes = ".001";
-const shipping = ".00001";
-const total = ".006";
+const method = "setGreeting";
+const discount = { code: "MIND STONE", amount: "FREE" };
 
 type CheckoutProps = {
-    greeterInstance: Contract;
-    message: string;
-    setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
-    cost: string;
-    price: string;
-    gas: string;
+  greeterInstance: Contract;
+  message: string;
+  setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
+  cost: string;
+  price: string;
+  gas: string;
+  hasNFT: boolean;
 };
 
 type GreeterData = {
-    message: string;
-}
+  message: string;
+};
 
-export default function Checkout({ greeterInstance, message, setGreetingMessage, cost, price, gas }: CheckoutProps) {
+export default function Checkout({
+  greeterInstance,
+  message,
+  setGreetingMessage,
+  cost,
+  price,
+  gas,
+  hasNFT,
+}: CheckoutProps) {
   // Updates greeting on the contract
-  const updateGreeting = async ({message} : GreeterData) => {
+  const updateGreeting = async ({ message }: GreeterData) => {
     try {
-    //   let txHandle;
-    //   if (params) {
-    //     txHandle = await greeterInstance.setGreeting(
-    //       newGreeting,
-    //       params,
-    //     );
-    //   } else {
-    //     txHandle = await greeterInstance.setGreeting(newGreeting);
-    //   }
-      const txHandle = await greeterInstance.setGreeting(message);
+      let txHandle;
+      if (hasNFT) {
+        const params = await usePaymaster({ greeterInstance, message, price });
+        txHandle = await greeterInstance.setGreeting(message, params);
+      } else {
+        txHandle = await greeterInstance.setGreeting(message);
+      }
+
       // Wait until the transaction is committed
       await txHandle.wait();
       // Set transaction details
@@ -50,15 +55,12 @@ export default function Checkout({ greeterInstance, message, setGreetingMessage,
     }
   };
 
-
   return (
     <>
       <main className="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden mt-8">
         {/* Order summary */}
-        <section
-          className="hidden w-full max-w-md flex-col bg-gray-50 lg:flex"
-        >
-          <h2 id="summary-heading" className="text-black text-center" >
+        <section className="hidden w-full max-w-md flex-col bg-gray-50 lg:flex">
+          <h2 id="summary-heading" className="text-black text-center">
             Transaction Details
           </h2>
 
@@ -66,17 +68,19 @@ export default function Checkout({ greeterInstance, message, setGreetingMessage,
             <dl className="mt-4 space-y-6 text-sm font-medium text-gray-500">
               <div className="flex justify-between">
                 <dt>Transaction: </dt>
-                <dd className="text-gray-900">{subtotal}</dd>
+                <dd className="text-gray-900">{method}</dd>
               </div>
-              <div className="flex justify-between">
-                <dt className="flex">
-                  Discount
-                  <span className="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600">
-                    {discount.code}
-                  </span>
-                </dt>
-                <dd className="text-gray-900">-{discount.amount}</dd>
-              </div>
+              {hasNFT && (
+                <div className="flex justify-between">
+                  <dt className="flex">
+                    Discount
+                    <span className="ml-2 rounded-full bg-gray-200 px-2 py-0.5 text-xs tracking-wide text-gray-600">
+                      {discount.code}
+                    </span>
+                  </dt>
+                  <dd className="text-gray-900">{discount.amount}</dd>
+                </div>
+              )}
               <div className="flex justify-between">
                 <dt>Transaction Fee (Gas Cost): </dt>
                 <dd className="text-gray-900">{gas} ETH</dd>
@@ -92,10 +96,10 @@ export default function Checkout({ greeterInstance, message, setGreetingMessage,
             </dl>
             <button
               type="submit"
-              onClick={() => updateGreeting({message})}
+              onClick={() => updateGreeting({ message })}
               className="mt-6 w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Change Greeting {total}
+              Change Greeting {cost}
             </button>
           </div>
         </section>

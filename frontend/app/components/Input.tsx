@@ -9,9 +9,10 @@ type InputProps = {
   greeterInstance: Contract;
   setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
   provider: Web3Provider | null;
+  hasNFT: boolean;
 };
 
-export default function Input({ greeterInstance, setGreetingMessage, provider }: InputProps) {
+export default function Input({ greeterInstance, setGreetingMessage, provider, hasNFT }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [cost, setCost] = useState("");
@@ -76,7 +77,7 @@ export default function Input({ greeterInstance, setGreetingMessage, provider }:
         </button>
       </div>
       {isOpen && (
-        <Modal closeModal={closeModal} greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas}/>
+        <Modal closeModal={closeModal} greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas} hasNFT={hasNFT} />
       )}
     </div>
   );
