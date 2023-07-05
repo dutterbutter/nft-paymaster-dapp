@@ -1,0 +1,11 @@
+{
+    "name": "Mind Stone",
+    "description": "The Mind Stone, embedded in the Vision's forehead, allows the user to control the minds of others.",
+    "image": "ipfs://ipfs/Qmb9fA5jcnPqUjRtqWT8mQXWxLnXpNNYb2Sqv13NXUZo7v/MindStone.png",
+    "attributes": [
+        {
+            "trait_type": "Color",
+            "value": "Yellow"
+        }
+    ]
+}

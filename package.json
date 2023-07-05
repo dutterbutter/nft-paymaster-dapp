@@ -1,0 +1,13 @@
+{
+  "name": "nft-paymaster-dapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:dutterbutter/nft-paymaster-dapp.git",
+  "author": "Dustin Brickwood <dustinbrickwood204@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["zksync", "frontend"],
+  "scripts": {
+    "serve:ui": "yarn workspace frontend dev"
+  }
+}
