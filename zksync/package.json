@@ -1,5 +1,5 @@
 {
-  "name": "zksync-hardhat-template",
+  "name": "zksync",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Antonio <aug@matterlabs.dev>",
@@ -25,7 +25,9 @@
   },
   "scripts": {
     "test": "NODE_ENV=test hardhat test --network zkSyncTestnet",
-    "deploy": "yarn hardhat deploy-zksync --script deploy-greeter.ts",
-    "greet": "yarn hardhat deploy-zksync --script use-greeter.ts"
+    "greeter": "yarn hardhat deploy-zksync --script deploy-greeter.ts",
+    "nft": "yarn hardhat deploy-zksync --script deploy-ERC721.ts",
+    "paymaster": "yarn hardhat deploy-zksync --script deploy-ERC721GatedPaymaster.ts",
+    "compile": "yarn hardhat compile"
   }
 }

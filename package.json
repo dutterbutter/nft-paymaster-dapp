@@ -8,6 +8,10 @@
   "private": true,
   "workspaces": ["zksync", "frontend"],
   "scripts": {
-    "serve:ui": "yarn workspace frontend dev"
+    "serve:ui": "yarn workspace frontend dev",
+    "deploy:greeter": "yarn workspace zksync greeter",
+    "deploy:nft": "yarn workspace zksync nft",
+    "deploy:paymaster": "yarn workspace zksync paymaster",
+    "compile:contracts": "yarn workspace zksync compile"
   }
 }

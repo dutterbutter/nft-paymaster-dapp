@@ -10,7 +10,7 @@ dotenv.config();
 // load wallet private key from env file
 const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY || "";
 // The address of the NFT collection contract
-const NFT_COLLECTION_ADDRESS = "0x63F88f7C7D86c11240A3c0A6059dDE21f8785132";
+const NFT_COLLECTION_ADDRESS = "NFT-CONTRACT-ADDRESS-HERE";
 
 if (!PRIVATE_KEY)
   throw "⛔️ Private key not detected! Add it to the .env file!";

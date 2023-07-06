@@ -1,14 +1,14 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  ExclamationTriangleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Web3Provider, Signer, Contract } from "zksync-web3";
+import { Contract } from "zksync-web3";
 import Checkout from "./Checkout";
 
 type ModalProps = {
-    greeterInstance: Contract;
+    closeModal: () => void;
+    greeterInstance: Contract | null;
     message: string;
     setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
     cost: string;

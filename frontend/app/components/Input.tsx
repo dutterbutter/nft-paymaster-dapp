@@ -1,18 +1,23 @@
-'use client'
-import { UsersIcon, PencilIcon } from "@heroicons/react/20/solid";
+"use client";
+import { PencilIcon } from "@heroicons/react/20/solid";
 import React, { useState, useEffect } from "react";
-import { Web3Provider, Signer, Contract } from "zksync-web3";
+import { Web3Provider, Contract } from "zksync-web3";
 import Modal from "./Modal";
 import * as ethers from "ethers";
 
 type InputProps = {
-  greeterInstance: Contract;
+  greeterInstance: Contract | null;
   setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
   provider: Web3Provider | null;
   hasNFT: boolean;
 };
 
-export default function Input({ greeterInstance, setGreetingMessage, provider, hasNFT }: InputProps) {
+export default function Input({
+  greeterInstance,
+  setGreetingMessage,
+  provider,
+  hasNFT,
+}: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [cost, setCost] = useState("");
@@ -24,7 +29,7 @@ export default function Input({ greeterInstance, setGreetingMessage, provider, h
       getEstimate();
     }
   }, [message]);
-  
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -38,11 +43,11 @@ export default function Input({ greeterInstance, setGreetingMessage, provider, h
   };
 
   async function getEstimate() {
-    // Get gas price from the network
+    // Get gas price 
     let gasPrice = await provider.getGasPrice();
-    let price = ethers.utils.formatEther(gasPrice.toString())
+    let price = ethers.utils.formatEther(gasPrice.toString());
     setPrice(price);
-    // Estimate gas required for a transaction
+    // Estimate gas required for transaction
     let gasEstimate = await greeterInstance.estimateGas["setGreeting"](message);
     let gas = ethers.utils.formatEther(gasEstimate.toString());
     setGas(gas);
@@ -77,7 +82,16 @@ export default function Input({ greeterInstance, setGreetingMessage, provider, h
         </button>
       </div>
       {isOpen && (
-        <Modal closeModal={closeModal} greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas} hasNFT={hasNFT} />
+        <Modal
+          closeModal={closeModal}
+          greeterInstance={greeterInstance}
+          message={message}
+          setGreetingMessage={setGreetingMessage}
+          cost={cost}
+          price={price}
+          gas={gas}
+          hasNFT={hasNFT}
+        />
       )}
     </div>
   );
