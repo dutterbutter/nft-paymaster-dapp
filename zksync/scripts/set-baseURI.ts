@@ -15,7 +15,7 @@ if (!PRIVATE_KEY)
   throw "⛔️ Private key not detected! Add it to the .env file!";
 
 // Address of the contract on zksync testnet
-const CONTRACT_ADDRESS = "0x63F88f7C7D86c11240A3c0A6059dDE21f8785132";
+const CONTRACT_ADDRESS = "0x1Ff84A3A9b8010F4a60144E24e8dfC09C11a4398";
 
 if (!CONTRACT_ADDRESS) throw "⛔️ Contract address not provided";
 
@@ -36,7 +36,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   );
 
   // Read message from contract
-  let tx = await contract.setBaseURI("https://ipfs.thirdwebcdn.com/ipfs/bafybeigjyixgxdpwmwwsep7fez66bcsxpu75flkw7aona4j2p6ixry73yy");
+  let tx = await contract.setBaseURI("https://ipfs.io/ipfs/QmPtDtJEJDzxthbKmdgvYcLa9oNUUUkh7vvz5imJFPQdKx");
   console.log(`Transaction to change the message is ${tx.hash}`);
   await tx.wait();
 

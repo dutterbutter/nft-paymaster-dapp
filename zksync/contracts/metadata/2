@@ -1,7 +1,7 @@
 {
     "name": "Reality Stone",
     "description": "The Reality Stone, also known as the Aether, can transform reality as we know it.",
-    "image": "ipfs://QmXTMMjwmaT67EyjUfbGfPpZTkWz8f8uh3yuTm1BJbHF8L/ruby_stone.png",
+    "image": "https://ipfs.io/ipfs/QmYoCFu8rzwQ7GLgtCCP36GojFKAb56TMpATQFBqcTk9V4?filename=ruby_stone.png",
     "attributes": [
         {
             "trait_type": "Color",

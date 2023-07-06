@@ -39,56 +39,19 @@ Let's jump right in:
    ```
    yarn compile:contracts
    ```
+3. **Deploy Contracts**
 
-3. **Deploy Greeter Contract**
-
-   Deploy the `Greeter.sol` contract:
-
-   ```
-   yarn deploy:greeter
-   ```
-
-   Copy the outputted Greeter contract address and add it to the `frontend/constants/consts.tsx` file: 
+   Deploy the `ERC721.sol`, `Greeter.sol`, and `ERC721GatedPaymaster.sol` contracts:
 
    ```
-   export const GREETER_ADDRESS = "YOUR-GREETER-ADDRESS";
+   yarn deploy:contracts
    ```
 
-4. **Deploy Infinity Stones NFT Contract**
+   **Important:** During the deployment process, you will be prompted to provide a Recipient Address. This is the address where the newly minted NFT will be sent.
 
-   Before deploying, add the address you want to assign the NFT to. We'll mint an NFT address during deployment. Go to `zksync/deploy/deploy-ERC721.ts` and input your address:
+   This will run the deployment scripts in `/zksync/deploy`.
 
-   ```
-   const RECIPIENT_ADDRESS = "YOUR-ADDRESS-HERE";
-   ```
-
-   Now, deploy the contract:
-
-   ```
-   yarn deploy:nft
-   ```
-
-   Again, copy the outputted NFT contract address and add it to the `frontend/constants/consts.tsx` file:
-
-   ```
-   export const NFT_CONTRACT_ADDRESS = "NFT-CONTRACT-ADDRESS";
-   ```
-
-5. **Deploy Paymaster Contract**
-
-   Before deploying, add the address of your NFT contract. Go to `zksync/deploy/deploy-ERC721GatedPaymaster.ts` and input the contract address:
-
-   ```
-   const NFT_COLLECTION_ADDRESS = "NFT-CONTRACT-ADDRESS-HERE";
-   ```
-
-   Now, deploy the contract:
-
-   ```
-   yarn deploy:paymaster
-   ```
-
-6. **Serve the User Interface**
+4. **Serve the User Interface**
 
    Excellent! Now that our contracts are deployed, we can serve up the user interface and interact with these contracts. To do so:
 
@@ -103,6 +66,7 @@ Let's jump right in:
 Here are some handy commands to get you started:
 
 - `yarn compile:contracts`: Compiles the contracts.
+- `yarn deploy:contracts`: Deploys all contracts.
 - `yarn deploy:greeter`: Deploys `Greeter.sol` contract. Find deployment scripts in the `/contracts/deploy` directory.
 - `yarn deploy:nft`: Deploys `ERC721.sol` contract. Deployment scripts are in the `/contracts/deploy` directory.
 - `yarn deploy:paymaster`: Deploys `ERC721GatedPaymaster.sol` contract. You can find deployment scripts in the `/contracts/deploy` directory.

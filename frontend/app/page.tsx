@@ -47,14 +47,18 @@ export default function Home() {
         const balance = await nftContract.balanceOf(address);
         if (balance > 0) {
           checkBalance(true);
-          // TODO: fetch NFT metadata from IPFS gateway
-          // const tokenId = 0;
-          // const tokenURI = await nftContract.tokenURI(tokenId);
-          // // Now fetch the metadata
-          // const res = await fetch(tokenURI);
-          // const metadata = await res.json();
-          // // Log the metadata
-          // console.log("METADATA", metadata);
+          //TODO: fetch NFT metadata from IPFS gateway
+          // const ownedTokens = await nftContract.tokensOfOwner(address);
+          // for(let i = 0; i < ownedTokens.length; i++) {
+          //     const tokenId = ownedTokens[i];
+          //     const tokenURI = await nftContract.tokenURI(tokenId);
+          //     console.log("tokenURI: ", tokenURI);
+          //     // Now fetch the metadata
+          //     const response = await fetch(tokenURI);
+          //     console.log("response: ", response);
+          //     const metadata = await response.json();
+          //     console.log(`Token ID: ${tokenId} - Token URI: ${tokenURI} - Metadata: `, metadata);
+          // }
         } else {
           checkBalance(false);
         }

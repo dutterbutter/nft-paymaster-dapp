@@ -2,6 +2,7 @@ import { Provider, Wallet } from "zksync-web3";
 import * as ethers from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
+import * as fs from 'fs';
 
 // load env file
 import dotenv from "dotenv";
@@ -19,7 +20,7 @@ if (!NFT_COLLECTION_ADDRESS)
   throw "⛔️ NFT_COLLECTION_ADDRESS not detected! Add it to the NFT_COLLECTION_ADDRESS variable!";
 
 export default async function (hre: HardhatRuntimeEnvironment) {
-  console.log(`Running deploy script for the ERC721gatedPaymaster contract...`);
+  console.log(`Running deploy script for the ERC721GatedPaymaster contract...`);
   const provider = new Provider("https://testnet.era.zksync.dev");
 
   // The wallet that will deploy the token and the paymaster
@@ -66,6 +67,12 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   console.log(
     `${contractFullyQualifedName} verified! VerificationId: ${verificationId}`,
   );
+
+  // Update frontend with contract address
+  const frontendConstantsFilePath = __dirname + '/../../frontend/app/constants/consts.tsx';
+  const data = fs.readFileSync(frontendConstantsFilePath, 'utf8');
+  const result = data.replace(/PAYMASTER-CONTRACT-ADDRESS/g, paymaster.address);
+  fs.writeFileSync(frontendConstantsFilePath, result, 'utf8');
 
   console.log(`Done!`);
 }

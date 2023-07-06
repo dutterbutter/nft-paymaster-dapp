@@ -2,6 +2,7 @@ import { Wallet, utils } from "zksync-web3";
 import * as ethers from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
+import * as fs from 'fs';
 
 // load env file
 import dotenv from "dotenv";
@@ -27,16 +28,6 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   // Estimate contract deployment fee
   const greeting = "Hi there!";
   const deploymentFee = await deployer.estimateDeployFee(artifact, [greeting]);
-
-  // ⚠️ OPTIONAL: You can skip this block if your account already has funds in L2
-  // Deposit funds to L2
-  // const depositHandle = await deployer.zkWallet.deposit({
-  //   to: deployer.zkWallet.address,
-  //   token: utils.ETH_ADDRESS,
-  //   amount: deploymentFee.mul(2),
-  // });
-  // // Wait until the deposit is processed on zkSync
-  // await depositHandle.wait();
 
   // Deploy this contract. The returned object will be of a `Contract` type, similarly to ones in `ethers`.
   // `greeting` is an argument for contract constructor.
@@ -69,4 +60,12 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   } else {
     console.log(`Contract not verified, deployed locally.`);
   }
+
+  // Update frontend with contract address
+  const frontendConstantsFilePath = __dirname + '/../../frontend/app/constants/consts.tsx';
+  const data = fs.readFileSync(frontendConstantsFilePath, 'utf8');
+  const result = data.replace(/YOUR-GREETER-ADDRESS/g, contractAddress);
+  fs.writeFileSync(frontendConstantsFilePath, result, 'utf8');
+
+  console.log('Done!')
 }

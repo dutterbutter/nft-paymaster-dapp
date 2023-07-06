@@ -9,6 +9,7 @@ contract InfinityStones is ERC721URIStorage, Ownable {
     uint256 public tokenId;
     string public baseURI;
     mapping (string => bool) public stoneExists;
+    mapping (address => uint256[]) private _ownedTokens;
 
     string[] public stones = [
         "Space Stone",
@@ -30,6 +31,7 @@ contract InfinityStones is ERC721URIStorage, Ownable {
             if(keccak256(bytes(stoneName)) == keccak256(bytes(stones[i]))) {
                 stoneExists[stoneName] = true;
                 _safeMint(recipient, tokenId);
+                _ownedTokens[recipient].push(tokenId); // Add tokenId to the owner's list
                 _setTokenURI(tokenId, stoneName);
                 tokenId++;
                 break;
@@ -44,5 +46,10 @@ contract InfinityStones is ERC721URIStorage, Ownable {
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, "/", Strings.toString(_tokenId))) : "";
+    }
+
+    // Add this function to return all tokens owned by a particular address
+    function tokensOfOwner(address owner) public view returns (uint256[] memory) {
+        return _ownedTokens[owner];
     }
 }
