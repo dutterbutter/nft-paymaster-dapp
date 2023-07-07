@@ -3,8 +3,14 @@ import { Wallet, Provider, Contract } from 'zksync-web3';
 import * as hre from 'hardhat';
 import { Deployer } from '@matterlabs/hardhat-zksync-deploy';
 
-const RICH_WALLET_PK =
-  '0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110';
+// load env file
+import dotenv from "dotenv";
+dotenv.config();
+
+const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY || "";
+
+if (!PRIVATE_KEY)
+  throw "⛔️ Private key not detected! Add it to the .env file!";
 
 async function deployGreeter(deployer: Deployer): Promise<Contract> {
   const artifact = await deployer.loadArtifact('Greeter');
@@ -15,7 +21,7 @@ describe('Greeter', function () {
   it("Should return the new greeting once it's changed", async function () {
     const provider = Provider.getDefaultProvider();
 
-    const wallet = new Wallet(RICH_WALLET_PK, provider);
+    const wallet = new Wallet(PRIVATE_KEY, provider);
     const deployer = new Deployer(hre, wallet);
 
     const greeter = await deployGreeter(deployer);
