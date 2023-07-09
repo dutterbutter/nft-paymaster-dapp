@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Contract } from "zksync-web3";
 import Checkout from "./Checkout";
+import { PowerStoneNft } from "../types/powerStoneNft";
 
 type ModalProps = {
     closeModal: () => void;
@@ -14,15 +15,24 @@ type ModalProps = {
     cost: string;
     price: string;
     gas: string;
-    hasNFT: boolean;
+    nfts: PowerStoneNft[];
 };
 
-export default function Modal({ greeterInstance, message, setGreetingMessage, cost, price, gas, hasNFT }: ModalProps) {
+export default function Modal({
+  closeModal,
+  greeterInstance,
+  message,
+  setGreetingMessage,
+  cost,
+  price,
+  gas,
+  nfts
+}: ModalProps) {
   const [open, setOpen] = useState(true);
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -58,7 +68,14 @@ export default function Modal({ greeterInstance, message, setGreetingMessage, co
                   </button>
                 </div>
                 <div className="sm:flex sm:items-start">
-                  <Checkout greeterInstance={greeterInstance} message={message} setGreetingMessage={setGreetingMessage} cost={cost} price={price} gas={gas} hasNFT={hasNFT} />
+                  <Checkout
+                    greeterInstance={greeterInstance}
+                    message={message}
+                    setGreetingMessage={setGreetingMessage}
+                    cost={cost}
+                    price={price}
+                    gas={gas}
+                    nfts={nfts} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>

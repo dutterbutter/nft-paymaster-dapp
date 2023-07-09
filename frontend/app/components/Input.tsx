@@ -4,19 +4,20 @@ import React, { useState, useEffect } from "react";
 import { Web3Provider, Contract } from "zksync-web3";
 import Modal from "./Modal";
 import * as ethers from "ethers";
+import { PowerStoneNft } from "../types/powerStoneNft";
 
 type InputProps = {
   greeterInstance: Contract | null;
   setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
   provider: Web3Provider | null;
-  hasNFT: boolean;
+  nfts: PowerStoneNft[];
 };
 
 export default function Input({
   greeterInstance,
   setGreetingMessage,
   provider,
-  hasNFT,
+  nfts,
 }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -90,7 +91,7 @@ export default function Input({
           cost={cost}
           price={price}
           gas={gas}
-          hasNFT={hasNFT}
+          nfts={nfts}
         />
       )}
     </div>
