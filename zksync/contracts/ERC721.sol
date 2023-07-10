@@ -45,6 +45,8 @@ contract InfinityStones is ERC721URIStorage, Ownable {
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         require(_exists(_tokenId), "ERC721URIStorage: URI query for nonexistent token");
+        // TODO: Return the correct IPFS ID given the name of the token
+        // Ex: 'Power Stone' -> 0, 'Mind Stone' -> 1, etc.
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, "/", Strings.toString(_tokenId))) : "";
     }
 

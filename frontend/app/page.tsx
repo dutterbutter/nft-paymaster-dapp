@@ -14,6 +14,7 @@ import {
   NFT_CONTRACT_ADDRESS,
   NFT_CONTRACT_ABI,
 } from "./constants/consts";
+import { PowerStoneNft } from "./types/powerStoneNft";
 
 export default function Home() {
   const { provider, signer, setProvider, setSigner } = useWeb3();
@@ -21,7 +22,7 @@ export default function Home() {
   const [greeterContractInstance, setGreeterContractInstance] =
     useState<Contract | null>(null);
   const [greeting, setGreetingMessage] = useState<string>("");
-  const [hasBalance, checkBalance] = useState(Boolean);
+  const [nfts, setNfts] = useState<PowerStoneNft[]>([]);
 
   // Handler for setting up contracts
   useEffect(() => {
@@ -46,21 +47,29 @@ export default function Home() {
         const address = await signer.getAddress();
         const balance = await nftContract.balanceOf(address);
         if (balance > 0) {
-          checkBalance(true);
-          //TODO: fetch NFT metadata from IPFS gateway
-          // const ownedTokens = await nftContract.tokensOfOwner(address);
-          // for(let i = 0; i < ownedTokens.length; i++) {
-          //     const tokenId = ownedTokens[i];
-          //     const tokenURI = await nftContract.tokenURI(tokenId);
-          //     console.log("tokenURI: ", tokenURI);
-          //     // Now fetch the metadata
-          //     const response = await fetch(tokenURI);
-          //     console.log("response: ", response);
-          //     const metadata = await response.json();
-          //     console.log(`Token ID: ${tokenId} - Token URI: ${tokenURI} - Metadata: `, metadata);
-          // }
+          let ownedStones: PowerStoneNft[] = [];
+          const ownedTokensResponse = await nftContract.tokensOfOwner(address);
+
+          for(let i = 0; i < ownedTokensResponse.length; i++) {
+              const tokenId = ownedTokensResponse[i];
+              
+              const tokenURI = await nftContract.tokenURI(tokenId);
+              if (tokenURI == undefined || tokenURI == "") {
+                continue;
+              }
+
+              // Now fetch the metadata
+              const response = await fetch(tokenURI);
+              if (!response.ok) {
+                continue;
+              }
+
+              ownedStones.push(await response.json() as PowerStoneNft);
+          }
+
+          setNfts(ownedStones);
         } else {
-          checkBalance(false);
+          setNfts([]);
         }
       }
     };
@@ -92,7 +101,7 @@ export default function Home() {
         greeterInstance={greeterContractInstance}
         setGreetingMessage={setGreetingMessage}
         provider={provider}
-        hasNFT={hasBalance}
+        nfts={nfts}
       />
       <div className="mb-12"></div>
     </main>

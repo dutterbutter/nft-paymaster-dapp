@@ -66,10 +66,16 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   // Mint NFTs to the recipient address
   const tx = await nftContract.mint(RECIPIENT_ADDRESS, stone);
   await tx.wait();
+  console.log(`The ${stone} has been given to ${RECIPIENT_ADDRESS}`);
 
   // Get and log the balance of the recipient
   const balance = await nftContract.balanceOf(RECIPIENT_ADDRESS);
   console.log(`Balance of the recipient: ${balance}`);
+
+  // Update base URI
+  let setBaseUriTransaction = await nftContract.setBaseURI("https://ipfs.io/ipfs/QmPtDtJEJDzxthbKmdgvYcLa9oNUUUkh7vvz5imJFPQdKx");
+  await setBaseUriTransaction.wait();
+  console.log(`New baseURI is ${await nftContract.baseURI()}`);
 
   // Verify contract programmatically
   //
