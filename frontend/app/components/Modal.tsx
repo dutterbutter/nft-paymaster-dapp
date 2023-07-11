@@ -12,6 +12,7 @@ type ModalProps = {
     greeterInstance: Contract | null;
     message: string;
     setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
+    // setMessages: React.Dispatch<React.SetStateAction<string[]>>;
     cost: string;
     price: string;
     gas: string;
@@ -23,6 +24,7 @@ export default function Modal({
   greeterInstance,
   message,
   setGreetingMessage,
+  // setMessages,
   cost,
   price,
   gas,
@@ -61,7 +63,7 @@ export default function Modal({
                   <button
                     type="button"
                     className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(false)}
+                    onClick={() => closeModal()}
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -72,6 +74,7 @@ export default function Modal({
                     greeterInstance={greeterInstance}
                     message={message}
                     setGreetingMessage={setGreetingMessage}
+                    // setMessages={setMessages}
                     cost={cost}
                     price={price}
                     gas={gas}

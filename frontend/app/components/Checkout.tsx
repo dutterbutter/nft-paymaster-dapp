@@ -11,6 +11,7 @@ type CheckoutProps = {
   greeterInstance: Contract | null;
   message: string;
   setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
+  // setMessages: React.Dispatch<React.SetStateAction<string[]>>;
   cost: string;
   price: string;
   gas: string;
@@ -25,6 +26,7 @@ export default function Checkout({
   greeterInstance,
   message,
   setGreetingMessage,
+  // setMessages,
   cost,
   price,
   gas,
@@ -40,6 +42,7 @@ export default function Checkout({
       }
 
       let txHandle;
+      console.log("hasNFT: ", hasNFT);
       if (hasNFT) {
         const params = await usePaymaster({ greeterInstance, message, price });
         txHandle = await greeterInstance.setGreeting(message, params);
@@ -55,6 +58,8 @@ export default function Checkout({
       // Update greeting
       const updatedGreeting = await greeterInstance.greet();
       setGreetingMessage(updatedGreeting);
+      // const updatedMessages = await greeterInstance.getMessages();
+      // setMessages(updatedMessages);
     } catch (error) {
       console.error("Failed to update greeting: ", error);
     }
@@ -64,7 +69,7 @@ export default function Checkout({
     <>
       <main className="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden mt-8">
         <section className="hidden w-full max-w-md flex-col bg-gray-50 lg:flex justify-between">
-          <h2 className="text-black text-center text-2xl mb-2">
+          <h2 className="text-black text-center text-2xl mb-2 mt-4">
             Transaction Details
           </h2>
           <div className="text-black text-center mb-2">
@@ -131,7 +136,7 @@ export default function Checkout({
             <button
               type="submit"
               onClick={() => updateGreeting({ message })}
-              className="mt-6 w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="mt-6 w-full rounded-md border border-transparent bg-custom px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Change Greeting for {hasNFT ? "FREE" : cost + " ETH"}
             </button>

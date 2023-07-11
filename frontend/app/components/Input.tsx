@@ -9,6 +9,7 @@ import { PowerStoneNft } from "../types/powerStoneNft";
 type InputProps = {
   greeterInstance: Contract | null;
   setGreetingMessage: React.Dispatch<React.SetStateAction<string>>;
+  // setMessages: React.Dispatch<React.SetStateAction<string[]>>;
   provider: Web3Provider | null;
   nfts: PowerStoneNft[];
 };
@@ -16,6 +17,7 @@ type InputProps = {
 export default function Input({
   greeterInstance,
   setGreetingMessage,
+  // setMessages,
   provider,
   nfts,
 }: InputProps) {
@@ -88,6 +90,7 @@ export default function Input({
           greeterInstance={greeterInstance}
           message={message}
           setGreetingMessage={setGreetingMessage}
+          // setMessages={setMessages}
           cost={cost}
           price={price}
           gas={gas}
