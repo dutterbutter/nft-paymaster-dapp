@@ -51,18 +51,7 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const nftContract = await deployer.deploy(nftContractArtifact, []);
   console.log(`NFT Contract address: ${nftContract.address}`);
 
-  const NFT_COLLECTION = [
-    "Space Stone",
-    "Mind Stone",
-    "Reality Stone",
-    "Power Stone",
-    "Time Stone",
-    "Soul Stone"
-  ];
-
-  // Randomly select a stone from the NFT_COLLECTION
-  const stone = NFT_COLLECTION[Math.floor(Math.random() * NFT_COLLECTION.length)];
-
+  const stone = "Power Stone";  
   // Mint NFTs to the recipient address
   const tx = await nftContract.mint(RECIPIENT_ADDRESS, stone);
   await tx.wait();
